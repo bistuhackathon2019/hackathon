@@ -1,5 +1,6 @@
 package my.app.hackathon.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import my.app.hackathon.entity.Post;
 import my.app.hackathon.entity.User;
 import my.app.hackathon.repository.PostRepository;
@@ -7,10 +8,11 @@ import my.app.hackathon.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 public class PostController {
@@ -22,6 +24,7 @@ public class PostController {
 
     @RequestMapping("/post/add")
     public Post addPost(Integer userId, Post post) {
+        post.setSendTime(new Date());
         if (userId != null){
             Optional<User> user = userRepository.findById(userId);
             if (user != null){
@@ -39,8 +42,14 @@ public class PostController {
         if (size == null || size < 0) {
             size = 10;
         }
-        PageRequest pageable = PageRequest.of(page, size);
-        return postRepository.findAll(pageable);
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Post> posts = postRepository.findByOrderBySendTimeDesc(pageable);
+        return posts;
+    }
+
+    @RequestMapping("/post/findAll")
+    public List<Post> findAllPosts(){
+        return postRepository.findAll();
     }
 
     @RequestMapping("/post/find/{id}")
