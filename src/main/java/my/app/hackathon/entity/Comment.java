@@ -3,12 +3,13 @@ package my.app.hackathon.entity;
 import javax.persistence.*;
 import java.util.Date;
 
+@Entity
 public class Comment {
     @Id
     @GeneratedValue
     private Integer commentId;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @ManyToOne
     @JoinColumn(name = "post_id")
     private Post post;
 

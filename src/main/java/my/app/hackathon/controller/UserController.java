@@ -14,31 +14,31 @@ public class UserController {
     UserRepository userRepository;
 
     //添加用户
-    @PostMapping("/user")
+    @RequestMapping("/user/add")
     public User insertUser(User user){
         return userRepository.save(user);
     }
 
     //查询用户
-    @GetMapping("/user/{id}")
+    @RequestMapping("/user/find/{id}")
     public Optional<User> findUser(@PathVariable("id") Integer id){
         return userRepository.findById(id);
     }
 
     //查询所有用户
-    @GetMapping("/user")
+    @RequestMapping("/user/find")
     public List<User> findUser(){
         return userRepository.findAll();
     }
 
     //更改用户
-    @PostMapping("/user/update")
+    @RequestMapping("/user/update")
     public User updateUser(User user){
         return userRepository.save(user);
     }
 
     //删除用户
-    @DeleteMapping("/user/{id}")
+    @RequestMapping("/user/delete/{id}")
     public void deleteUser(@PathVariable Integer id){
         userRepository.deleteById(id);
     }
