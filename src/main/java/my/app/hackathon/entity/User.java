@@ -1,22 +1,26 @@
 package my.app.hackathon.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 public class User {
     @Id
     @GeneratedValue
-    public Integer id;
+    private Integer id;
 
-    @Column(nullable = false)
-    public String phone;
-    public String mood;
+    @Column(nullable = false,unique = true)
+    private String phone;
+
+    private String mood;
 
     @Column(name = "session_key",columnDefinition = "TEXT")
-    public String sessionKey;
+    private String sessionKey;
+
+//    @OneToMany(fetch = FetchType.LAZY,cascade = {CascadeType.REMOVE}, mappedBy = "user")
+//    private Set<Post> posts = new HashSet<>();
 
     public String getSessionKey() {
         return sessionKey;
@@ -49,4 +53,12 @@ public class User {
     public void setMood(String mood) {
         this.mood = mood;
     }
+
+//    public Set<Post> getPosts() {
+//        return posts;
+//    }
+//
+//    public void setPosts(Set<Post> posts) {
+//        this.posts = posts;
+//    }
 }
